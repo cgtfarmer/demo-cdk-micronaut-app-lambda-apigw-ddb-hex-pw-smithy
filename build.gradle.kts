@@ -39,6 +39,20 @@ repositories {
 }
 
 dependencies {
+  // General
+  compileOnly("org.projectlombok:lombok:1.18.34")
+  annotationProcessor("org.projectlombok:lombok:1.18.34")
+  implementation("org.apache.commons:commons-lang3:3.14.0")
+  runtimeOnly("org.yaml:snakeyaml")
+  implementation("com.fasterxml.jackson.core:jackson-databind:2.17.2")
+  /*
+    Needed to serialize datetimes. Ex:
+
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.registerModule(new JavaTimeModule());
+  */
+  // implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.2")
+
   // AWS
   implementation(platform("software.amazon.awssdk:bom:2.25.65"))
   implementation("software.amazon.awssdk:dynamodb-enhanced")
@@ -57,21 +71,6 @@ dependencies {
   compileOnly("io.micronaut:micronaut-http-client-jdk")
   testImplementation("io.micronaut:micronaut-http-client-jdk")
   runtimeOnly("ch.qos.logback:logback-classic")
-
-  // General
-  compileOnly("org.projectlombok:lombok:1.18.34")
-  annotationProcessor("org.projectlombok:lombok:1.18.34")
-  implementation("org.apache.commons:commons-lang3:3.14.0")
-  runtimeOnly("org.yaml:snakeyaml")
-  implementation("com.fasterxml.jackson.core:jackson-databind:2.17.2")
-  /*
-    Needed to serialize datetimes. Ex:
-
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.registerModule(new JavaTimeModule());
-  */
-  // implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.2")
-
 }
 
 application {
