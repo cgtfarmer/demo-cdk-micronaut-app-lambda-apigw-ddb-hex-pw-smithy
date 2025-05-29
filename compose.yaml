@@ -1,0 +1,9 @@
+services:
+  docs:
+    image: swaggerapi/swagger-ui:v5.22.0
+    environment:
+      SWAGGER_JSON: /home/swagger.json
+    volumes:
+      - ./smithy/build/smithyprojections/smithy/source/openapi/UserService.openapi.json:/home/swagger.json
+    ports:
+      - 8080:8080
