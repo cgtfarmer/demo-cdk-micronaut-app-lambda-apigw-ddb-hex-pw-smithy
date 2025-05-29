@@ -1,15 +1,15 @@
 package com.cgtfarmer.app;
 
+import com.smithy.api.RootApi;
+import com.smithy.model.GetHealthResponseContent;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
-import java.util.Collections;
-import java.util.Map;
 
 @Controller
-public class RootController {
+public class RootController implements RootApi {
 
   @Get("/health")
-  public Map<String, Object> health() {
-    return Collections.singletonMap("message", "Healthy");
+  public GetHealthResponseContent getHealth() {
+    return new GetHealthResponseContent("Healthy");
   }
 }

@@ -5,6 +5,26 @@
         "version": "2025-01-01"
     },
     "paths": {
+        "/health": {
+            "get": {
+                "operationId": "GetHealth",
+                "responses": {
+                    "200": {
+                        "description": "GetHealth 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetHealthResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "root"
+                ]
+            }
+        },
         "/users": {
             "get": {
                 "operationId": "ListUsers",
@@ -183,6 +203,17 @@
                 },
                 "required": [
                     "success"
+                ]
+            },
+            "GetHealthResponseContent": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "message"
                 ]
             },
             "GetUserResponseContent": {

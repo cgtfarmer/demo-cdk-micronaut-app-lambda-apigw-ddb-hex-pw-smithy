@@ -11,13 +11,14 @@ service UserService {
     resources: [
         User
     ]
-    // operations: [
-    //     ListUsers
-    //     GetUser
-    //     CreateUser
-    //     UpdateUser
-    //     DestroyUser
-    // ]
+    operations: [
+        GetHealth
+        //     ListUsers
+        //     GetUser
+        //     CreateUser
+        //     UpdateUser
+        //     DestroyUser
+    ]
 }
 
 // Resources
@@ -62,6 +63,14 @@ list UserList {
 }
 
 // Operations
+@tags(["root"])
+@http(method: "GET", uri: "/health", code: 200)
+@readonly
+operation GetHealth {
+    input: GetHealthRequest
+    output: GetHealthResponse
+}
+
 @tags(["user"])
 @http(method: "GET", uri: "/users", code: 200)
 @readonly
@@ -103,6 +112,15 @@ operation DestroyUser {
 }
 
 // Requests, Responses
+@input
+structure GetHealthRequest {}
+
+@output
+structure GetHealthResponse {
+    @required
+    message: String
+}
+
 @input
 structure ListUsersRequest {}
 
