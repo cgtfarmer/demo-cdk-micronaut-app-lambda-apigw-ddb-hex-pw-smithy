@@ -62,6 +62,16 @@ list UserList {
     member: UserDto
 }
 
+// "client" = 400s, "server" = 500s
+@error("client")
+@httpError(404)
+structure ResourceNotFound {
+    @required
+    resourceType: String
+
+    resourceId: String
+}
+
 // Operations
 @tags(["root"])
 @http(method: "GET", uri: "/health", code: 200)
@@ -93,6 +103,9 @@ operation CreateUser {
 operation GetUser {
     input: GetUserRequest
     output: GetUserResponse
+    errors: [
+        ResourceNotFound
+    ]
 }
 
 @tags(["user"])

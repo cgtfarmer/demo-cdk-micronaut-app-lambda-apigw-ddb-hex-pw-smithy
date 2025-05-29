@@ -122,19 +122,6 @@ micronaut {
       additionalModelTypeAnnotations.set(
         listOf("@lombok.Builder(toBuilder = true)")
       )
-      // additionalModelTypeAnnotations.addAll(
-      //   listOf(
-      //     // "@io.micronaut.sourcegen.annotations.Builder"
-      //     "@lombok.Builder",
-      //     "@lombok.AllArgsConstructor",
-      //     "@lombok.NoArgsConstructor",
-      //     "@lombok.Data"
-      //     // "@Builder",
-      //     // "@AllArgsConstructor",
-      //     // "@NoArgsConstructor",
-      //     // "@Data"
-      //   )
-      // )
     }
   }
 }

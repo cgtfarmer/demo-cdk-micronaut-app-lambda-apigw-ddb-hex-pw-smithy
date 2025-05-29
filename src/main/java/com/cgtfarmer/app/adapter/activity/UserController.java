@@ -1,5 +1,6 @@
 package com.cgtfarmer.app.adapter.activity;
 
+import com.cgtfarmer.app.adapter.activity.exception.ResourceNotFoundException;
 import com.cgtfarmer.app.adapter.activity.mapper.UserControllerMapper;
 import com.cgtfarmer.app.application.model.User;
 import com.cgtfarmer.app.application.port.in.CreateUserUseCase;
@@ -15,11 +16,15 @@ import com.smithy.model.GetUserResponseContent;
 import com.smithy.model.ListUsersResponseContent;
 import com.smithy.model.PutUserRequestContent;
 import com.smithy.model.PutUserResponseContent;
+import com.smithy.model.ResourceNotFoundResponseContent;
 import com.smithy.model.UserDto;
+import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpResponse;
+import io.micronaut.http.HttpStatus;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Delete;
+import io.micronaut.http.annotation.Error;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.PathVariable;
 import io.micronaut.http.annotation.Post;
@@ -125,5 +130,20 @@ public class UserController implements UserApi {
         this.destroyUserUseCase.destroyUser(UUID.fromString(userId));
 
     return new DestroyUserResponseContent(result);
+  }
+
+  @Error(exception = ResourceNotFoundException.class)
+  public HttpResponse<ResourceNotFoundResponseContent> handle(
+      HttpRequest<?> request,
+      ResourceNotFoundException ex
+  ) {
+    ResourceNotFoundResponseContent body =
+        ResourceNotFoundResponseContent.builder()
+            .resourceType(ex.getResourceType())
+            .resourceId(ex.getResourceId())
+            .build();
+
+    return HttpResponse.status(HttpStatus.NOT_FOUND)
+        .body(body);
   }
 }

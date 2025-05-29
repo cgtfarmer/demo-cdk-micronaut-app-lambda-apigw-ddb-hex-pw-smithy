@@ -124,6 +124,16 @@
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "description": "ResourceNotFound 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceNotFoundResponseContent"
+                                }
+                            }
+                        }
                     }
                 },
                 "tags": [
@@ -261,6 +271,20 @@
                 },
                 "required": [
                     "user"
+                ]
+            },
+            "ResourceNotFoundResponseContent": {
+                "type": "object",
+                "properties": {
+                    "resourceType": {
+                        "type": "string"
+                    },
+                    "resourceId": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "resourceType"
                 ]
             },
             "UserDto": {
