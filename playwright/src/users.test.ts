@@ -2,10 +2,12 @@ import { test, expect } from "@playwright/test";
 import { PlaywrightUtils } from "./playwright-utils";
 import { CreateUserCommand, DestroyUserCommand, GetUserCommand, ListUsersCommand, PutUserCommand, UserServiceClient } from '@cgtfarmer/user-service-client';
 
+const client = new UserServiceClient({
+  endpoint: 'https://h2dvwnlsj7.execute-api.us-east-1.amazonaws.com'
+});
+
 test("retrieve users", async () => {
   await PlaywrightUtils.createDefaultUser();
-
-  const client = new UserServiceClient({ endpoint: 'https://h2dvwnlsj7.execute-api.us-east-1.amazonaws.com' });
 
   const response = await client.send(
     new ListUsersCommand()
@@ -17,8 +19,6 @@ test("retrieve users", async () => {
 });
 
 test("create user", async () => {
-  const client = new UserServiceClient({ endpoint: 'https://h2dvwnlsj7.execute-api.us-east-1.amazonaws.com' });
-
   const request = new CreateUserCommand({
     user: {
       firstName: "John",
@@ -44,8 +44,6 @@ test("create user", async () => {
 test("retrieve user", async () => {
   const createdUser = await PlaywrightUtils.createDefaultUser();
 
-  const client = new UserServiceClient({ endpoint: 'https://h2dvwnlsj7.execute-api.us-east-1.amazonaws.com' });
-
   const response = await client.send(
     new GetUserCommand({ userId: createdUser.userId })
   );
@@ -61,8 +59,6 @@ test("update user", async () => {
   const createdUser = await PlaywrightUtils.createDefaultUser();
 
   const newFirstName = "Test";
-
-  const client = new UserServiceClient({ endpoint: 'https://h2dvwnlsj7.execute-api.us-east-1.amazonaws.com' });
 
   const request = new PutUserCommand({
     userId: createdUser.userId,
@@ -89,8 +85,6 @@ test("update user", async () => {
 
 test("destroy user", async () => {
   const createdUser = await PlaywrightUtils.createDefaultUser();
-
-  const client = new UserServiceClient({ endpoint: 'https://h2dvwnlsj7.execute-api.us-east-1.amazonaws.com' });
 
   const response = await client.send(
     new DestroyUserCommand({ userId: createdUser.userId })
