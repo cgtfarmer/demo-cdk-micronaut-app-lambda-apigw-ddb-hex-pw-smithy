@@ -1,12 +1,12 @@
-import { APIRequestContext } from "playwright-core";
-import { CreateUserRequest } from './dto/create-user-request';
-import { UserResponse } from './dto/user-response';
 import { expect } from '@playwright/test';
+import { CreateUserCommand, UserDto, UserServiceClient } from '@cgtfarmer/user-service-client';
 
-const createDefaultUser = async (request: APIRequestContext) => {
+const createDefaultUser = async (): Promise<UserDto> => {
   console.log("[PlaywrightUtils#createDefaultUser]");
 
-  const requestBody: CreateUserRequest = {
+  const client = new UserServiceClient({ endpoint: 'https://h2dvwnlsj7.execute-api.us-east-1.amazonaws.com' });
+
+  const request = new CreateUserCommand({
     user: {
       firstName: "John",
       lastName: "Doe",
@@ -14,17 +14,17 @@ const createDefaultUser = async (request: APIRequestContext) => {
       weight: 185.3,
       smoker: false
     }
-  };
+  });
 
-  const response = await request.post("/users", { data: requestBody });
+  const response = await client.send(request);
 
-  expect(response.status()).toEqual(200);
-
-  const responseBody = (await response.json()) as UserResponse;
+  expect(response.$metadata.httpStatusCode).toEqual(201);
 
   // console.log(responseBody);
 
-  return responseBody;
+  if (!response.user) throw new Error("Default user failed to create");
+
+  return response.user
 };
 
 export const PlaywrightUtils = { createDefaultUser };

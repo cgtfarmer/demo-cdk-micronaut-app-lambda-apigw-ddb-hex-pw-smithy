@@ -41,8 +41,8 @@ export class AppStack extends Stack {
       }),
       environment: {
         MICRONAUT_ENVIRONMENTS: 'cloud',
-        LOGGER_LEVELS_ROOT: 'DEBUG',
-        LOGGER_LEVELS_COM_CGTFARMER: 'TRACE',
+        LOGGER_LEVELS_ROOT: 'DEBUG', // DEBUG
+        LOGGER_LEVELS_COM_CGTFARMER: 'TRACE', // TRACE
         DDB_TABLE_NAME: props.dynamoDbTable.tableName
       },
       memorySize: 1024,

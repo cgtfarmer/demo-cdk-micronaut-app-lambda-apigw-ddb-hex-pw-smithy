@@ -23,12 +23,8 @@ import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Delete;
 import io.micronaut.http.annotation.Error;
-import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.PathVariable;
-import io.micronaut.http.annotation.Post;
-import io.micronaut.http.annotation.Put;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -36,7 +32,9 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
-@Controller("/users")
+// Note: Uses the annotations from the UserApi interface
+// @Controller("/users")
+@Controller
 public class UserController implements UserApi {
 
   private final GetUserUseCase getUserUseCase;
@@ -68,7 +66,7 @@ public class UserController implements UserApi {
     this.mapper = mapper;
   }
 
-  @Get
+  // @Get
   public ListUsersResponseContent listUsers() {
     List<User> processedUsers = this.getAllUsersUseCase.getAllUsers();
 
@@ -77,7 +75,7 @@ public class UserController implements UserApi {
     return new ListUsersResponseContent(result);
   }
 
-  @Post
+  // @Post
   public HttpResponse<@Valid CreateUserResponseContent> createUser(
       @Body @NotNull @Valid CreateUserRequestContent request
   ) {
@@ -90,7 +88,7 @@ public class UserController implements UserApi {
     return HttpResponse.created(new CreateUserResponseContent(result));
   }
 
-  @Get("/{userId}")
+  // @Get("/{userId}")
   public GetUserResponseContent getUser(
       @PathVariable("userId") @NotBlank String userId
   ) { // throws ResourceNotFoundException {
@@ -106,7 +104,7 @@ public class UserController implements UserApi {
     return new GetUserResponseContent(result);
   }
 
-  @Put("/{userId}")
+  // @Put("/{userId}")
   public PutUserResponseContent putUser(
       @PathVariable("userId") @NotNull String id,
       @Body @NotNull @Valid PutUserRequestContent request
@@ -122,7 +120,7 @@ public class UserController implements UserApi {
     return new PutUserResponseContent(result);
   }
 
-  @Delete("/{userId}")
+  // @Delete("/{userId}")
   public DestroyUserResponseContent destroyUser(
       @PathVariable("userId") @NotNull String userId
   ) {

@@ -6,6 +6,7 @@ import jakarta.inject.Singleton;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
+import org.apache.commons.lang3.StringUtils;
 
 @Singleton
 public final class UserControllerMapper {
@@ -43,8 +44,14 @@ public final class UserControllerMapper {
   }
 
   public User mapToModel(UserDto dto) {
+    UUID id = null;
+
+    if (StringUtils.isNotBlank(dto.getUserId())) {
+      id = UUID.fromString(dto.getUserId());
+    }
+
     return User.builder()
-        .id(UUID.fromString(dto.getUserId()))
+        .id(id)
         .firstName(dto.getFirstName())
         .lastName(dto.getLastName())
         .age(

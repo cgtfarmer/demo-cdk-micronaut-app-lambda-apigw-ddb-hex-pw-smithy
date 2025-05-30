@@ -1,21 +1,25 @@
 import { test, expect } from "@playwright/test";
-import { User } from "./dto/user";
 import { PlaywrightUtils } from "./playwright-utils";
-import { CreateUserRequest } from './dto/create-user-request';
-import { UserResponse } from './dto/user-response';
+import { CreateUserCommand, DestroyUserCommand, GetUserCommand, ListUsersCommand, PutUserCommand, UserServiceClient } from '@cgtfarmer/user-service-client';
 
-test("retrieve users", async ({ request }) => {
-  const response = await request.get("/users");
+test("retrieve users", async () => {
+  await PlaywrightUtils.createDefaultUser();
 
-  expect(response.status()).toEqual(200);
+  const client = new UserServiceClient({ endpoint: 'https://h2dvwnlsj7.execute-api.us-east-1.amazonaws.com' });
 
-  const body = (await response.json()) as { users: User[] };
+  const response = await client.send(
+    new ListUsersCommand()
+  );
 
-  expect(body.users.length).toBeGreaterThanOrEqual(0);
+  expect(response.$metadata.httpStatusCode).toEqual(200);
+
+  expect(response.users?.length).toBeGreaterThan(0);
 });
 
-test("create user", async ({ request }) => {
-  const requestBody: CreateUserRequest = {
+test("create user", async () => {
+  const client = new UserServiceClient({ endpoint: 'https://h2dvwnlsj7.execute-api.us-east-1.amazonaws.com' });
+
+  const request = new CreateUserCommand({
     user: {
       firstName: "John",
       lastName: "Doe",
@@ -23,91 +27,78 @@ test("create user", async ({ request }) => {
       weight: 185.3,
       smoker: false
     }
-  };
+  });
 
-  const response = await request.post("/users", { data: requestBody });
+  const response = await client.send(request);
 
-  // console.log(response);
+  expect(response.$metadata.httpStatusCode).toEqual(201);
 
-  expect(response.status()).toEqual(200);
-
-  const responseBody = (await response.json()) as UserResponse;
-
-  expect(responseBody.user.id?.length).toBeGreaterThan(0);
-  expect(responseBody.user.firstName).toBe(requestBody.user.firstName);
-  expect(responseBody.user.lastName).toBe(requestBody.user.lastName);
-  expect(responseBody.user.age).toBe(requestBody.user.age);
-  expect(responseBody.user.weight).toBe(requestBody.user.weight);
-  expect(responseBody.user.smoker).toBe(requestBody.user.smoker);
+  expect(response.user?.userId?.length).toBeGreaterThan(0);
+  expect(response.user?.firstName).toBe(request.input.user?.firstName);
+  expect(response.user?.lastName).toBe(request.input.user?.lastName);
+  expect(response.user?.age).toBe(request.input.user?.age);
+  expect(response.user?.weight).toBe(request.input.user?.weight);
+  expect(response.user?.smoker).toBe(request.input.user?.smoker);
 });
 
-test("retrieve user", async ({ request }) => {
-  const createUserBody = await PlaywrightUtils.createDefaultUser(request);
+test("retrieve user", async () => {
+  const createdUser = await PlaywrightUtils.createDefaultUser();
 
-  if (!createUserBody.user.id) throw new Error("User ID not present");
+  const client = new UserServiceClient({ endpoint: 'https://h2dvwnlsj7.execute-api.us-east-1.amazonaws.com' });
 
-  const getUserResponse = await request.get(`/users/${createUserBody.user.id}`);
+  const response = await client.send(
+    new GetUserCommand({ userId: createdUser.userId })
+  );
 
   // console.log(getUserResponse);
 
-  expect(getUserResponse.status()).toEqual(200);
+  expect(response.$metadata.httpStatusCode).toEqual(200);
 
-  const getUserBody = (await getUserResponse.json()) as UserResponse;
-
-  expect(getUserBody.user.id).toBe(createUserBody.user.id);
+  expect(response.user?.userId).toBe(createdUser.userId);
 });
 
-test("update user", async ({ request }) => {
-  const createUserBody = await PlaywrightUtils.createDefaultUser(request);
+test("update user", async () => {
+  const createdUser = await PlaywrightUtils.createDefaultUser();
 
   const newFirstName = "Test";
 
-  // TODO: Create PUT request
-  const requestBody: CreateUserRequest = {
+  const client = new UserServiceClient({ endpoint: 'https://h2dvwnlsj7.execute-api.us-east-1.amazonaws.com' });
+
+  const request = new PutUserCommand({
+    userId: createdUser.userId,
     user: {
-      id: createUserBody.user.id,
       firstName: newFirstName,
-      lastName: createUserBody.user.lastName,
-      age: createUserBody.user.age,
-      weight: createUserBody.user.weight,
-      smoker: createUserBody.user.smoker
+      lastName: "Doe",
+      age: 32,
+      weight: 185.3,
+      smoker: false
     }
-  };
-
-  if (!requestBody.user.id) throw new Error("User ID not present");
-
-  const response = await request.put(`/users/${requestBody.user.id}`, {
-    data: requestBody
   });
 
-  expect(response.status()).toEqual(200);
+  const response = await client.send(request);
 
-  const responseBody = (await response.json()) as UserResponse;
+  expect(response.$metadata.httpStatusCode).toEqual(200);
 
-  expect(responseBody.user.id).toBe(requestBody.user.id);
-  expect(responseBody.user.firstName).toBe(requestBody.user.firstName);
-  expect(responseBody.user.lastName).toBe(requestBody.user.lastName);
-  expect(responseBody.user.age).toBe(requestBody.user.age);
-  expect(responseBody.user.weight).toBe(requestBody.user.weight);
-  expect(responseBody.user.smoker).toBe(requestBody.user.smoker);
+  expect(response.user?.userId).toBe(request.input.userId);
+  expect(response.user?.firstName).toBe(request.input.user?.firstName);
+  expect(response.user?.lastName).toBe(request.input.user?.lastName);
+  expect(response.user?.age).toBe(request.input.user?.age);
+  expect(response.user?.weight).toBe(request.input.user?.weight);
+  expect(response.user?.smoker).toBe(request.input.user?.smoker);
 });
 
-test("destroy user", async ({ request }) => {
-  const createUserBody = await PlaywrightUtils.createDefaultUser(request);
+test("destroy user", async () => {
+  const createdUser = await PlaywrightUtils.createDefaultUser();
 
-  if (!createUserBody.user.id) throw new Error("User ID not present");
+  const client = new UserServiceClient({ endpoint: 'https://h2dvwnlsj7.execute-api.us-east-1.amazonaws.com' });
 
-  const destroyUserResponse = await request.delete(
-    `/users/${createUserBody.user.id}`
+  const response = await client.send(
+    new DestroyUserCommand({ userId: createdUser.userId })
   );
 
   // console.log(destroyUserResponse);
 
-  expect(destroyUserResponse.status()).toEqual(200);
+  expect(response.$metadata.httpStatusCode).toEqual(200);
 
-  const destroyUserBody = (await destroyUserResponse.json()) as {
-    success: boolean;
-  };
-
-  expect(destroyUserBody.success).toBe(true);
+  expect(response.success).toBe(true);
 });

@@ -9,13 +9,14 @@
     <property name="APP_LEVEL"  value="${LOGGER_LEVELS_COM_CGTFARMER:-INFO}"/>
 
     <!-- Micronaut puts AWSRequestId & friends in the MDC for every request  -->
-    <property name="MDC_KEYS"
-              value="rid:%X{AWSRequestId:- -} fn:%X{AWSFunctionName:- -}"/>
+    <!-- <property name="MDC_KEYS"
+              value="rid:%X{AWSRequestId:- -} fn:%X{AWSFunctionName:- -}"/> -->
 
     <!-- ─── 2.  Appender → stdout (picked up by CloudWatch) ──────────────── -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>%d{ISO8601} %-5level %logger{36} [${MDC_KEYS}] – %msg%n%ex{full}</pattern>
+            <!-- <pattern>%d{ISO8601} %-5level %logger{36} [${MDC_KEYS}] – %msg%n%ex{full}</pattern> -->
+            <pattern>%d{ISO8601} %-5level %logger{36} [rid:%X{AWSRequestId:- -} fn:%X{AWSFunctionName:- -}] – %msg%n%ex{full}</pattern>
         </encoder>
     </appender>
 

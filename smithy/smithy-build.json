@@ -4,7 +4,14 @@
     "openapi": {
       "service": "com.cgtfarmer.user#UserService",
       "version": "3.1.0",
-      "tags": true
+      "tags": true,
+      "protocol": "aws.protocols#restJson1"
+    },
+    "typescript-client-codegen": {
+      "service": "com.cgtfarmer.user#UserService",
+      "package": "@cgtfarmer/user-service-client",
+      "packageVersion": "0.0.1",
+      "packageManager": "npm"
     }
   }
 }
