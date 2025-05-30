@@ -1,4 +1,54 @@
 services:
+  api:
+    build:
+      context: ./api
+      target: development
+    environment:
+      ENV: local
+    tty: true
+    extra_hosts: # For Linux
+      - host.docker.internal:host-gateway
+    ports:
+      - 8080:8080
+    volumes:
+      - ./api:/usr/local/api
+
+  shared:
+    image: node:20.19
+    working_dir: /home/node/shared
+    tty: true
+    command: ./bin/docker-cmd
+    extra_hosts: # For Linux
+      - host.docker.internal:host-gateway
+    volumes:
+      - ./shared:/home/node/shared
+      - ./api:/home/node/api
+
+  smithy:
+    image: gradle:8.4.0-jdk21
+    working_dir: /usr/local/smithy
+    tty: true
+    command: ./bin/docker-cmd
+    extra_hosts: # For Linux
+      - host.docker.internal:host-gateway
+    volumes:
+      - ./smithy:/usr/local/smithy
+      - ./shared:/usr/local/shared
+
+  playwright:
+    image: node:20.19
+    environment:
+      BASE_URL: 'http://api:8080'
+    user: node
+    working_dir: /home/node/playwright
+    tty: true
+    command: "npm run test"
+    extra_hosts: # For Linux
+      - host.docker.internal:host-gateway
+    volumes:
+      - ./playwright:/home/node/playwright
+      - ./shared:/home/node/shared
+
   docs:
     image: swaggerapi/swagger-ui:v5.22.0
     environment:
@@ -7,3 +57,18 @@ services:
       - ./smithy/build/smithyprojections/smithy/source/openapi/UserService.openapi.json:/home/swagger.json
     ports:
       - 8080:8080
+
+  # Note: CDK invokes Docker for asset bundling,
+  # so maybe this shouldn't live here
+  # cdk:
+  #   image: node:20.19
+  #   user: node
+  #   working_dir: /home/node/cdk
+  #   tty: true
+  #   command: "npm run deploy"
+  #   extra_hosts: # For Linux
+  #     - host.docker.internal:host-gateway
+  #   volumes:
+  #     - ./cdk:/home/node/cdk
+  #     - ./api:/home/node/api
+  #     - ./shared:/home/node/shared

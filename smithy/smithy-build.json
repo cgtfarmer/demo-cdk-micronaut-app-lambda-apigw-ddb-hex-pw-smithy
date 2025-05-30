@@ -9,7 +9,7 @@
     },
     "typescript-client-codegen": {
       "service": "com.cgtfarmer.user#UserService",
-      "package": "@cgtfarmer/user-service-client",
+      "package": "@cgtfarmer/user-service-ts-client",
       "packageVersion": "0.0.1",
       "packageManager": "npm"
     }

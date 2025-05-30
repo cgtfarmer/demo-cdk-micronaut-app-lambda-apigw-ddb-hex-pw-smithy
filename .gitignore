@@ -57,19 +57,30 @@ typings/
 # next.js build output
 .next
 
-cdk.out
-
 notes.txt
 
 .DS_Store
 
 target
-.gradle
-build
-notes
 
 .classpath
 .project
 
+# ---
+
+notes
+
+api/.gradle
+api/build
+
+cdk/cdk.out
+cdk/node_modules
+
 playwright/node_modules
 playwright/test-results
+
+shared/clients/*
+shared/openapi/*
+
+smithy/.gradle
+smithy/build

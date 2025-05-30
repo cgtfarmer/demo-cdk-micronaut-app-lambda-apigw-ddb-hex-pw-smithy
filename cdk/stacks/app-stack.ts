@@ -18,7 +18,7 @@ export class AppStack extends Stack {
       runtime: Runtime.JAVA_21,
       // handler: 'com.cgtfarmer.app.Handler',
       handler: 'io.micronaut.function.aws.proxy.payload2.APIGatewayV2HTTPEventFunction',
-      code: Code.fromAsset(join(__dirname, '../../'), {
+      code: Code.fromAsset(join(__dirname, '../../api/'), {
         bundling: {
           image: Runtime.JAVA_21.bundlingImage,
           user: 'root',

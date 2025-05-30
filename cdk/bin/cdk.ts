@@ -7,8 +7,7 @@ import { AppStack } from '../stacks/app-stack';
 import { InfraStack } from '../stacks/infra-stack';
 
 const cdkEnvironment: Environment = {
-  account: '024848454171',
-  // account: '<AWS_ACCOUNT_ID>',
+  account: '<AWS_ACCOUNT_ID>',
   region: 'us-east-1'
 };
 

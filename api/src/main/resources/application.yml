@@ -1,0 +1,5 @@
+micronaut:
+  application:
+    name: app
+  # env:
+  #   cloud-deduction: true

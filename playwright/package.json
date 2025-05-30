@@ -11,7 +11,7 @@
     "watch": "tsc -w"
   },
   "dependencies": {
-    "@cgtfarmer/user-service-client": "file:../smithy/build/smithyprojections/smithy/source/typescript-client-codegen",
+    "@cgtfarmer/user-service-client": "file:../shared/clients/user-service-ts-client",
     "@types/node": "^20.17.50"
   },
   "devDependencies": {
