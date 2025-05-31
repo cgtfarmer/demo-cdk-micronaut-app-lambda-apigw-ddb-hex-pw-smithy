@@ -4,7 +4,8 @@ WORKDIR /usr/local/api
 
 COPY . ./
 
-RUN ./gradlew build
+RUN ./gradlew clean && \
+  ./gradlew build
 
 CMD ["./gradlew", "run"]
 

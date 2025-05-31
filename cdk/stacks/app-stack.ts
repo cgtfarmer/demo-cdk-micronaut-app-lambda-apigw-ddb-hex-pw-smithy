@@ -26,7 +26,8 @@ export class AppStack extends Stack {
             '/bin/sh',
             '-c',
             './gradlew build -PoutDir=/tmp --no-daemon && '
-            + 'cp -v /tmp/libs/*-all-optimized.jar /asset-output/'
+            + 'cp -v /tmp/libs/*-all-optimized.jar /asset-output/ &&'
+            + './gradlew clean'
           ],
           // TODO: Modify this for Gradle?
           // Mounting local ~/.m2 repo to avoid re-downloading all the dependencies

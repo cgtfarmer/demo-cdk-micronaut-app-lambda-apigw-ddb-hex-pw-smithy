@@ -5,6 +5,7 @@ import com.smithy.model.UserDto;
 import jakarta.inject.Singleton;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import org.apache.commons.lang3.StringUtils;
 
@@ -30,11 +31,13 @@ public final class UserControllerMapper {
   }
 
   public UserDto mapToDto(User user) {
+    String id = Objects.isNull(user.getId())
+        ? null
+        : user.getId()
+            .toString();
+
     return UserDto.builder()
-        .userId(
-            user.getId()
-                .toString()
-        )
+        .userId(id)
         .firstName(user.getFirstName())
         .lastName(user.getLastName())
         .age(BigDecimal.valueOf(user.getAge()))
