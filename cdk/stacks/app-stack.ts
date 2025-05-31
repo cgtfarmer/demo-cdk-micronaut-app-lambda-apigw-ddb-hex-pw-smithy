@@ -25,7 +25,7 @@ export class AppStack extends Stack {
           command: [
             '/bin/sh',
             '-c',
-            'gradle build -PoutDir=/tmp --no-daemon && '
+            './gradlew build -PoutDir=/tmp --no-daemon && '
             + 'cp -v /tmp/libs/*-all-optimized.jar /asset-output/'
           ],
           // TODO: Modify this for Gradle?

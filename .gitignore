@@ -72,6 +72,7 @@ notes
 
 api/.gradle
 api/build
+api/bin
 
 cdk/cdk.out
 cdk/node_modules

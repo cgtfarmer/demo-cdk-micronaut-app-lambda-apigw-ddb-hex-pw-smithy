@@ -4,9 +4,9 @@ WORKDIR /usr/local/api
 
 COPY . ./
 
-RUN gradle build
+RUN gradlew build
 
-CMD ["gradle", "run"]
+CMD ["gradlew", "run"]
 
 
 # FROM development AS build
