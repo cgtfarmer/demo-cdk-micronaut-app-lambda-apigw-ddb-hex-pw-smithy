@@ -1,6 +1,6 @@
-# Demo CDK Micronaut Java Lambda APIGW Hexagonal Architecture Playwright
+# Demo CDK Micronaut Java Lambda APIGW Hexagonal Architecture Playwright Smithy
 
-This is a template repo for an API GW fronted Micronaut Java Lambda using hexagonal architecture and Playwright
+This is a template repo for an API GW fronted Micronaut Java Lambda using hexagonal architecture, Playwright, and Smithy
 
 ## Prerequisites
 
