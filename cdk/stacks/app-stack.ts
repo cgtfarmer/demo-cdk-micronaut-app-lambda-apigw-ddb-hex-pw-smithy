@@ -27,6 +27,8 @@ export class AppStack extends Stack {
             '-c',
             './gradlew build -PoutDir=/tmp --no-daemon && '
             + 'cp -v /tmp/libs/*-all-optimized.jar /asset-output/ &&'
+            // Clean out the build artifacts to avoid
+            // permission/ownership conflicts in local development
             + './gradlew clean'
           ],
           // TODO: Modify this for Gradle?
