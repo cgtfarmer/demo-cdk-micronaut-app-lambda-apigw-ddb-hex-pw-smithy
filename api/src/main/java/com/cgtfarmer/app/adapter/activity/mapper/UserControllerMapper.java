@@ -1,6 +1,6 @@
 package com.cgtfarmer.app.adapter.activity.mapper;
 
-import com.cgtfarmer.app.application.model.User;
+import com.cgtfarmer.app.domain.model.User;
 import com.smithy.model.UserDto;
 import jakarta.inject.Singleton;
 import java.math.BigDecimal;

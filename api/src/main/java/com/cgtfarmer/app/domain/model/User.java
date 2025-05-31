@@ -1,4 +1,4 @@
-package com.cgtfarmer.app.application.model;
+package com.cgtfarmer.app.domain.model;
 
 import java.util.UUID;
 import lombok.Builder;

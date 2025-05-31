@@ -1,6 +1,6 @@
 package com.cgtfarmer.app.application.port.out;
 
-import com.cgtfarmer.app.application.model.User;
+import com.cgtfarmer.app.domain.model.User;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

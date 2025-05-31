@@ -1,6 +1,6 @@
 package com.cgtfarmer.app.application.port.in;
 
-import com.cgtfarmer.app.application.model.User;
+import com.cgtfarmer.app.domain.model.User;
 
 public interface UpdateUserUseCase {
 

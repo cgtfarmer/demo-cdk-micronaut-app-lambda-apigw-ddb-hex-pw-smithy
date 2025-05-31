@@ -1,9 +1,9 @@
 package com.cgtfarmer.app.application.port.in;
 
 import com.cgtfarmer.app.domain.model.User;
-import java.util.UUID;
+import java.util.List;
 
-public interface GetUserUseCase {
+public interface ListUsersUseCase {
 
-  public User getUser(UUID id);
+  public List<User> listUsers();
 }

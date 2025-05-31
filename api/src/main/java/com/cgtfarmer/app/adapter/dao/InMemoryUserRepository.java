@@ -1,7 +1,7 @@
 package com.cgtfarmer.app.adapter.dao;
 
-import com.cgtfarmer.app.application.model.User;
 import com.cgtfarmer.app.application.port.out.UserRepository;
+import com.cgtfarmer.app.domain.model.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
