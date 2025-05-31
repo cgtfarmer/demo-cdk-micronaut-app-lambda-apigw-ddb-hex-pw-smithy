@@ -33,15 +33,6 @@ public final class InMemoryUserRepository implements UserRepository {
   }
 
   @Override
-  public User create(User user) {
-    user.setId(UUID.randomUUID());
-
-    users.add(user);
-
-    return user;
-  }
-
-  @Override
   public boolean destroy(UUID id) {
     Optional<User> user = this.get(id);
 
@@ -56,7 +47,7 @@ public final class InMemoryUserRepository implements UserRepository {
   }
 
   @Override
-  public User update(User user) {
+  public User put(User user) {
     int index = IntStream.range(0, this.users.size())
         .filter(
             i -> this.users.get(i)
@@ -66,11 +57,41 @@ public final class InMemoryUserRepository implements UserRepository {
         .findFirst()
         .orElse(-1);
 
-    if (index < 0)
+    if (index < 0) {
+      this.users.add(user);
       return user;
+    }
 
     this.users.set(index, user);
 
     return user;
   }
+
+  // @Override
+  // public User create(User user) {
+  //   user.setId(UUID.randomUUID());
+
+  //   users.add(user);
+
+  //   return user;
+  // }
+
+  // @Override
+  // public User update(User user) {
+  //   int index = IntStream.range(0, this.users.size())
+  //       .filter(
+  //           i -> this.users.get(i)
+  //               .getId()
+  //               .equals(user.getId())
+  //       )
+  //       .findFirst()
+  //       .orElse(-1);
+
+  //   if (index < 0)
+  //     return user;
+
+  //   this.users.set(index, user);
+
+  //   return user;
+  // }
 }

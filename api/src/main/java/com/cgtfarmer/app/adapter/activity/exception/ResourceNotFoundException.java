@@ -3,7 +3,7 @@ package com.cgtfarmer.app.adapter.activity.exception;
 import java.util.UUID;
 import lombok.Getter;
 
-public class ResourceNotFoundException extends Exception {
+public class ResourceNotFoundException extends RuntimeException {
 
   @Getter
   private final String resourceType;

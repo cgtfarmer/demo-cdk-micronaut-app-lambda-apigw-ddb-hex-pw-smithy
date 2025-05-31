@@ -107,20 +107,18 @@ micronaut {
   openapi {
     server(file("src/main/resources/UserService.openapi.json")) {
       // Controller interfaces
-      // apiPackageName   = "com.cgtfarmer.app.adapter.activity"
-      apiPackageName   = "com.smithy.api"
+      // apiPackageName = "com.cgtfarmer.app.adapter.activity"
+      apiPackageName = "com.smithy.api"
       // DTOs
       // modelPackageName = "com.cgtfarmer.app.adapter.activity.dto"
       modelPackageName = "com.smithy.model"
       controllerPackage = "com.smithy.controller"
       // (Optional) Reactor/Mono
-      useReactive      = false
+      useReactive = false
 
-      // configOptions.put("useLombok", "true")
+      // Enable easy DTO construction
       lombok.set(true)
-
       requiredPropertiesInConstructor.set(false)
-      // additionalProperties.put("generateBuilders", "true")
       additionalProperties.put("generateBuilders", "true")
       additionalModelTypeAnnotations.set(
         listOf("@lombok.Builder(toBuilder = true)")

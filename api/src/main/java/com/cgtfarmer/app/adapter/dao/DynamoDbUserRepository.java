@@ -5,6 +5,7 @@ import com.cgtfarmer.app.application.port.out.UserRepository;
 import com.cgtfarmer.app.lib.dao.DynamoDbRepository;
 import jakarta.inject.Inject;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
@@ -42,14 +43,10 @@ public final class DynamoDbUserRepository implements UserRepository {
   }
 
   @Override
-  public User create(User user) {
-    user.setId(UUID.randomUUID());
+  public User put(User user) {
+    if (Objects.isNull(user.getId()))
+      user.setId(UUID.randomUUID());
 
-    return this.update(user);
-  }
-
-  @Override
-  public User update(User user) {
     this.repository.put(this.mapper.mapToDto(user));
 
     return user;
@@ -65,4 +62,18 @@ public final class DynamoDbUserRepository implements UserRepository {
 
     return true;
   }
+
+  // @Override
+  // public User create(User user) {
+  //   user.setId(UUID.randomUUID());
+
+  //   return this.update(user);
+  // }
+
+  // @Override
+  // public User update(User user) {
+  //   this.repository.put(this.mapper.mapToDto(user));
+
+  //   return user;
+  // }
 }

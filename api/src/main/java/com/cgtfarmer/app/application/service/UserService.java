@@ -1,5 +1,6 @@
 package com.cgtfarmer.app.application.service;
 
+import com.cgtfarmer.app.adapter.activity.exception.ResourceNotFoundException;
 import com.cgtfarmer.app.application.model.User;
 import com.cgtfarmer.app.application.port.in.CreateUserUseCase;
 import com.cgtfarmer.app.application.port.in.DestroyUserUseCase;
@@ -25,18 +26,18 @@ public final class UserService implements CreateUserUseCase, UpdateUserUseCase,
 
   @Override
   public User createUser(User user) {
-    return this.userRepository.create(user);
+    return this.userRepository.put(user);
   }
 
   @Override
   public User updateUser(User user) {
-    return this.userRepository.update(user);
+    return this.userRepository.put(user);
   }
 
   @Override
   public User getUser(UUID id) {
     return this.userRepository.get(id)
-        .orElse(null);
+        .orElseThrow(() -> new ResourceNotFoundException(User.class, id));
   }
 
   @Override

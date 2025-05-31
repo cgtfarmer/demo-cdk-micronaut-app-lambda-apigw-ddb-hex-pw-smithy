@@ -11,9 +11,11 @@ public interface UserRepository {
 
   public List<User> getAll();
 
-  public User create(User user);
+  // public User create(User user);
 
-  public User update(User user);
+  // public User update(User user);
+
+  public User put(User user);
 
   public boolean destroy(UUID id);
 }
