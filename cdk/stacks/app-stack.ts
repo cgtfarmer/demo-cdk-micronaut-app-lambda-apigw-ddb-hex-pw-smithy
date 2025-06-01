@@ -3,6 +3,7 @@ import { Construct } from 'constructs';
 import { BundlingOutput, Duration, Stack, StackProps } from 'aws-cdk-lib';
 import { Code, Function, Runtime } from 'aws-cdk-lib/aws-lambda';
 import { TableV2 } from 'aws-cdk-lib/aws-dynamodb';
+import { homedir } from 'os';
 
 interface InfraStackProps extends StackProps {
   readonly dynamoDbTable: TableV2;
@@ -31,14 +32,13 @@ export class AppStack extends Stack {
             // permission/ownership conflicts in local development
             + './gradlew clean'
           ],
-          // TODO: Modify this for Gradle?
-          // Mounting local ~/.m2 repo to avoid re-downloading all the dependencies
-          // volumes: [
-          //   {
-          //     hostPath: join(homedir(), '.m2/repository'),
-          //     containerPath: '/root/.m2/repository/'
-          //   }
-          // ],
+          // Mounting host machine filesystem location for caching
+          volumes: [
+            {
+              hostPath: join(homedir(), '.gradle-cdk'),
+              containerPath: '/root/.gradle'
+            }
+          ],
           outputType: BundlingOutput.ARCHIVED
         }
       }),
